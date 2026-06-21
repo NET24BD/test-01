@@ -20,6 +20,7 @@ body{
     align-items:center;
 }
 
+/* LOGIN BOX */
 .box{
     width:340px;
     background:rgba(0,0,0,0.25);
@@ -32,6 +33,7 @@ body{
     position:relative;
 }
 
+/* BANGLADESH FLAG DOT */
 .box::before{
     content:"";
     width:80px;
@@ -46,6 +48,7 @@ body{
 
 h2{
     margin-bottom:25px;
+    font-size:26px;
 }
 
 /* INPUT */
@@ -87,7 +90,7 @@ button:hover{
     background:#ff3b55;
 }
 
-/* LOADING SPINNER */
+/* SPINNER */
 .spinner{
     width:16px;
     height:16px;
@@ -103,9 +106,11 @@ button:hover{
     100%{transform:rotate(360deg);}
 }
 
-small{
-    display:block;
+/* MESSAGE */
+#msg{
     margin-top:15px;
+    font-size:14px;
+    text-align:center;
     color:#d1d5db;
 }
 </style>
@@ -126,7 +131,7 @@ small{
         <span id="btnText">Login</span>
     </button>
 
-    <small>🇧🇩 Secure NetSpeed Bangladesh System</small>
+    <div id="msg"></div>
 </div>
 
 </div>
@@ -140,19 +145,23 @@ function login(){
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
+    let msg = document.getElementById("msg");
     let btn = document.getElementById("loginBtn");
     let spinner = document.getElementById("spinner");
     let btnText = document.getElementById("btnText");
 
     if(!username || !password){
-        alert("Fill all fields");
+        msg.style.color = "#f42a41";
+        msg.innerText = "Fill all fields";
         return;
     }
 
-    // 🔥 LOADING START
+    // LOADING START
     btn.disabled = true;
     spinner.style.display = "block";
     btnText.innerText = "Logging in...";
+    msg.style.color = "#d1d5db";
+    msg.innerText = "Checking credentials...";
 
     fetch(API_URL, {
         method: "POST",
@@ -166,22 +175,30 @@ function login(){
     .then(res => {
 
         if(res.status === "success"){
+
             localStorage.setItem("username", res.username);
             localStorage.setItem("page", res.page);
 
-            window.location.href = res.page;
+            msg.style.color = "#22c55e";
+            msg.innerText = "Login successful ✔ Redirecting...";
+
+            // 🔥 DIRECT DASHBOARD REDIRECT
+            setTimeout(() => {
+                window.location.href = res.page;
+            }, 1000);
+
         }
         else{
-            alert(res.message);
+            msg.style.color = "#f42a41";
+            msg.innerText = res.message;
         }
 
     })
     .catch(err => {
-        alert("Server error");
-        console.log(err);
+        msg.style.color = "#facc15";
+        msg.innerText = "Server error!";
     })
     .finally(() => {
-        // 🔥 LOADING END
         btn.disabled = false;
         spinner.style.display = "none";
         btnText.innerText = "Login";
