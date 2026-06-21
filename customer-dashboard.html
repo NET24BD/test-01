@@ -1,3 +1,18 @@
+<script>
+// 🔐 SECURITY CHECK
+const auth = localStorage.getItem("auth");
+const user = localStorage.getItem("username");
+
+if(auth !== "true" || !user){
+    window.location.replace("customer-login.html");
+}
+
+// 🚪 LOGOUT
+function logout(){
+    localStorage.clear();
+    window.location.replace("customer-login.html");
+}
+</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
