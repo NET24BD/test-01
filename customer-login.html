@@ -20,7 +20,6 @@ body{
     align-items:center;
 }
 
-/* LOGIN BOX */
 .box{
     width:340px;
     background:rgba(0,0,0,0.25);
@@ -33,7 +32,6 @@ body{
     position:relative;
 }
 
-/* BANGLADESH FLAG DOT */
 .box::before{
     content:"";
     width:80px;
@@ -43,32 +41,21 @@ body{
     position:absolute;
     top:20px;
     right:20px;
-    box-shadow:0 0 30px rgba(244,42,65,0.5);
 }
 
-h2{
-    margin-bottom:25px;
-    font-size:26px;
-}
+h2{ margin-bottom:20px; }
 
-/* INPUT */
 input{
     width:100%;
     padding:12px;
     margin:10px 0;
     border:none;
     border-radius:10px;
-    outline:none;
     background:rgba(255,255,255,0.08);
     color:white;
     border:1px solid rgba(255,255,255,0.15);
 }
 
-input::placeholder{
-    color:#d1d5db;
-}
-
-/* BUTTON */
 button{
     width:100%;
     padding:12px;
@@ -79,18 +66,12 @@ button{
     font-weight:bold;
     cursor:pointer;
     margin-top:15px;
-    transition:0.3s;
     display:flex;
     justify-content:center;
     align-items:center;
     gap:10px;
 }
 
-button:hover{
-    background:#ff3b55;
-}
-
-/* SPINNER */
 .spinner{
     width:16px;
     height:16px;
@@ -102,15 +83,13 @@ button:hover{
 }
 
 @keyframes spin{
-    0%{transform:rotate(0deg);}
+    0%{transform:rotate(0);}
     100%{transform:rotate(360deg);}
 }
 
-/* MESSAGE */
 #msg{
     margin-top:15px;
     font-size:14px;
-    text-align:center;
     color:#d1d5db;
 }
 </style>
@@ -119,21 +98,21 @@ button:hover{
 <body>
 
 <div class="wrapper">
-
 <div class="box">
-    <h2>Customer Login</h2>
 
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
+<h2>Customer Login</h2>
 
-    <button id="loginBtn" onclick="login()">
-        <div class="spinner" id="spinner"></div>
-        <span id="btnText">Login</span>
-    </button>
+<input type="text" id="username" placeholder="Username">
+<input type="password" id="password" placeholder="Password">
 
-    <div id="msg"></div>
+<button id="loginBtn" onclick="login()">
+    <div class="spinner" id="spinner"></div>
+    <span id="btnText">Login</span>
+</button>
+
+<div id="msg"></div>
+
 </div>
-
 </div>
 
 <script>
@@ -160,8 +139,7 @@ function login(){
     btn.disabled = true;
     spinner.style.display = "block";
     btnText.innerText = "Logging in...";
-    msg.style.color = "#d1d5db";
-    msg.innerText = "Checking credentials...";
+    msg.innerText = "Checking login...";
 
     fetch(API_URL, {
         method: "POST",
@@ -174,17 +152,30 @@ function login(){
     .then(res => res.json())
     .then(res => {
 
-        if(res.status === "success"){
+        console.log(res);
 
-            localStorage.setItem("username", res.username);
-            localStorage.setItem("page", res.page);
+        if(res.status === "success"){
 
             msg.style.color = "#22c55e";
             msg.innerText = "Login successful ✔ Redirecting...";
 
-            // 🔥 DIRECT DASHBOARD REDIRECT
+            // SAVE
+            localStorage.setItem("username", res.username);
+            localStorage.setItem("role", res.role);
+
+            // 🔥 SAFE REDIRECT FIX
             setTimeout(() => {
-                window.location.href = res.page;
+
+                if(res.role === "customer"){
+                    window.location.href = "./customer-dashboard.html";
+                }
+                else if(res.role === "chat"){
+                    window.location.href = "./chat.html";
+                }
+                else{
+                    msg.innerText = "No valid role found";
+                }
+
             }, 1000);
 
         }
