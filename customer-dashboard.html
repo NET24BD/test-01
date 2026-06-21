@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Dashboard</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#07140f;
+    color:#eafff3;
+}
+
+/* HEADER */
+header{
+    text-align:center;
+    padding:15px;
+    font-size:22px;
+    font-weight:bold;
+    color:#00c853;
+}
+
+/* TOPBAR */
+.topbar{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    padding:10px;
+    flex-wrap:wrap;
+}
+
+.box{
+    background:#0e241b;
+    padding:8px 12px;
+    border-radius:10px;
+    font-size:13px;
+    border:1px solid rgba(0,200,83,0.25);
+}
+
+/* LOGOUT */
+.logout{
+    background:#ff1744;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    cursor:pointer;
+    border-radius:10px;
+}
+
+/* CATEGORY TITLE */
+h2{
+    margin:20px 0 10px 20px;
+    color:#00e676;
+    font-size:18px;
+}
+
+/* GRID */
+.container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:18px;
+    padding:10px 20px 30px 20px;
+}
+
+/* CARD */
+.card{
+    background:#0e241b;
+    padding:20px;
+    border-radius:15px;
+    text-align:center;
+    cursor:pointer;
+    transition:0.3s;
+    border:1px solid rgba(0,200,83,0.15);
+}
+
+/* HOVER = RED */
+.card:hover{
+    transform:scale(1.05);
+    background:#2a0f12;
+    border:1px solid #ff1744;
+    box-shadow:0 0 15px rgba(255,23,68,0.35);
+}
+
+/* CLICK ACTIVE = RED STICKY */
+.card.active{
+    background:#2a0f12;
+    border:1px solid #ff1744;
+    box-shadow:0 0 18px rgba(255,23,68,0.5);
+}
+
+.status{
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.online{
+    color:#00e676;
+}
+
+.server-name{
+    font-size:16px;
+    font-weight:600;
+    display:block;
+    margin-top:8px;
+    padding-top:8px;
+    border-top:1px solid rgba(255,255,255,0.08);
+}
+</style>
+</head>
+
+<body>
+
+<header>⚡ Customer Dashboard</header>
+
+<div class="topbar">
+    <div class="box">🟢 Active: <span id="active">0</span></div>
+    <div class="box">📡 Total: <span id="total">0</span></div>
+    <div class="box">⏰ <span id="time"></span></div>
+    <button class="logout" onclick="logout()">Logout</button>
+</div>
+
+<!-- ================= MOVIE ================= -->
+<h2>🎬 Movie Section</h2>
+<div class="container">
+
+<div class="card" data-link="https://ctgmovies.com/"><div class="status online">ONLINE</div><span class="server-name">CTG Movies</span></div>
+<div class="card" data-link="https://netflix.com"><div class="status online">ONLINE</div><span class="server-name">Netflix</span></div>
+<div class="card" data-link="https://amazon.com"><div class="status online">ONLINE</div><span class="server-name">Amazon Prime</span></div>
+<div class="card" data-link="https://disneyplus.com"><div class="status online">ONLINE</div><span class="server-name">Disney+</span></div>
+<div class="card" data-link="https://youtube.com"><div class="status online">ONLINE</div><span class="server-name">YouTube Movies</span></div>
+
+</div>
+
+<!-- ================= LIVE TV ================= -->
+<h2>📡 Live TV Section</h2>
+<div class="container">
+
+<div class="card" data-link="http://new.circleftp.net/"><div class="status online">ONLINE</div><span class="server-name">Circle FTP</span></div>
+<div class="card" data-link="http://play.starplex.live/"><div class="status online">ONLINE</div><span class="server-name">Star Plex</span></div>
+<div class="card" data-link="https://itcnbd.live/"><div class="status online">ONLINE</div><span class="server-name">ITCN BD</span></div>
+<div class="card" data-link="http://172.20.21.22/"><div class="status online">ONLINE</div><span class="server-name">Local IPTV</span></div>
+<div class="card" data-link="https://iptv-org.github.io/"><div class="status online">ONLINE</div><span class="server-name">Free IPTV</span></div>
+
+</div>
+
+<!-- ================= SOCIAL ================= -->
+<h2>🌐 Social & Tools</h2>
+<div class="container">
+
+<div class="card" data-link="https://wikipedia.org"><div class="status online">ONLINE</div><span class="server-name">Wikipedia</span></div>
+<div class="card" data-link="https://reddit.com"><div class="status online">ONLINE</div><span class="server-name">Reddit</span></div>
+<div class="card" data-link="https://gemini.google.com/"><div class="status online">ONLINE</div><span class="server-name">Gemeni</span></div>
+<div class="card" data-link="https://discord.com"><div class="status online">ONLINE</div><span class="server-name">Discord</span></div>
+<div class="card" data-link="https://telegram.org"><div class="status online">ONLINE</div><span class="server-name">Telegram</span></div>
+
+<div class="card" data-link="https://cloudflare.com"><div class="status online">ONLINE</div><span class="server-name">Cloudflare</span></div>
+<div class="card" data-link="https://drive.google.com"><div class="status online">ONLINE</div><span class="server-name">Google Drive</span></div>
+<div class="card" data-link="https://maps.google.com"><div class="status online">ONLINE</div><span class="server-name">Google Maps</span></div>
+<div class="card" data-link="https://canva.com"><div class="status online">ONLINE</div><span class="server-name">Canva</span></div>
+<div class="card" data-link="https://chat.openai.com"><div class="status online">ONLINE</div><span class="server-name">ChatGPT</span></div>
+
+</div>
+
+<script>
+
+// LOGIN CHECK
+if(localStorage.getItem("auth") !== "true"){
+    window.location.replace("customer-login.html");
+}
+
+// LOGOUT
+function logout(){
+    localStorage.removeItem("auth");
+    window.location.replace("customer-login.html");
+}
+
+// CLICK SYSTEM (ACTIVE + OPEN LINK)
+document.querySelectorAll(".card").forEach(card=>{
+    card.addEventListener("click",()=>{
+
+        document.querySelectorAll(".card").forEach(c=>{
+            c.classList.remove("active");
+        });
+
+        card.classList.add("active");
+
+        window.open(card.getAttribute("data-link"), "_blank");
+    });
+});
+
+// COUNT
+function update(){
+    let cards = document.querySelectorAll(".card");
+    let online = document.querySelectorAll(".online");
+
+    document.getElementById("active").innerText = online.length;
+    document.getElementById("total").innerText = cards.length;
+}
+update();
+
+// CLOCK
+setInterval(()=>{
+    document.getElementById("time").innerText = new Date().toLocaleTimeString();
+},1000);
+
+</script>
+
+</body>
+</html>
