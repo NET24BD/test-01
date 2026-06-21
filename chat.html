@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Private Chat System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background: linear-gradient(135deg,#0f172a,#020617);
+color:white;
+}
+
+/* MAIN */
+.container{
+display:flex;
+height:100vh;
+}
+
+/* LEFT PANEL */
+.left{
+width:30%;
+min-width:260px;
+background: linear-gradient(180deg,#0f766e,#0f172a);
+border-right:1px solid #334155;
+display:flex;
+flex-direction:column;
+}
+
+.profile{
+padding:15px;
+background: linear-gradient(90deg,#06b6d4,#0ea5e9);
+font-weight:bold;
+color:black;
+}
+
+.search{
+padding:10px;
+}
+
+.search input{
+width:100%;
+padding:10px;
+border:none;
+border-radius:10px;
+outline:none;
+background:#0f172a;
+color:white;
+border:1px solid #334155;
+}
+
+.user{
+padding:15px;
+border-bottom:1px solid #334155;
+cursor:pointer;
+transition:0.3s;
+}
+
+.user:hover{
+background: linear-gradient(90deg,#06b6d4,#22c55e);
+color:black;
+}
+
+/* RIGHT PANEL */
+.right{
+flex:1;
+display:flex;
+flex-direction:column;
+background: linear-gradient(135deg,#0b1220,#0f172a);
+}
+
+.header{
+padding:15px;
+background: linear-gradient(90deg,#22c55e,#06b6d4);
+font-weight:bold;
+color:black;
+}
+
+.chat-box{
+flex:1;
+padding:15px;
+overflow-y:auto;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+/* MESSAGE */
+.msg{
+padding:10px;
+border-radius:12px;
+max-width:70%;
+word-wrap:break-word;
+box-shadow:0 0 10px rgba(0,0,0,0.3);
+}
+
+.me{
+background: linear-gradient(135deg,#22c55e,#16a34a);
+align-self:flex-end;
+color:black;
+}
+
+.other{
+background: linear-gradient(135deg,#334155,#1e293b);
+align-self:flex-start;
+color:white;
+}
+
+/* INPUT */
+.input-area{
+display:flex;
+padding:10px;
+background: linear-gradient(90deg,#0f172a,#111827);
+gap:10px;
+}
+
+.input-area input{
+flex:1;
+padding:10px;
+border:none;
+border-radius:10px;
+outline:none;
+background:#0b1220;
+color:white;
+border:1px solid #334155;
+}
+
+button{
+padding:10px 15px;
+border:none;
+background: linear-gradient(90deg,#06b6d4,#22c55e);
+color:black;
+font-weight:bold;
+border-radius:10px;
+cursor:pointer;
+}
+
+button:hover{
+opacity:0.8;
+}
+
+/* MOBILE */
+@media (max-width:768px){
+.container{
+flex-direction:column;
+}
+
+.left{
+width:100%;
+height:35vh;
+overflow-y:auto;
+}
+
+.right{
+height:65vh;
+}
+
+.msg{
+max-width:85%;
+}
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- LEFT -->
+<div class="left">
+<div class="profile">
+👤 Logged in: <span id="me">fahim</span>
+</div>
+
+<div class="search">
+<input type="text" placeholder="Search user...">
+</div>
+
+<div class="user" onclick="openChat('admin')">admin</div>
+<div class="user" onclick="openChat('rakib')">rakib</div>
+<div class="user" onclick="openChat('hasan')">hasan</div>
+
+</div>
+
+<!-- RIGHT -->
+<div class="right">
+
+<div class="header" id="chatWith">
+💬 Select a user
+</div>
+
+<div class="chat-box" id="chatBox"></div>
+
+<div class="input-area">
+<input type="text" id="msgInput" placeholder="Type message...">
+<button onclick="sendMsg()">Send</button>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let currentUser = "";
+let me = "fahim"; // পরে login system থেকে আসবে
+
+document.getElementById("me").innerText = me;
+
+function openChat(user){
+currentUser = user;
+document.getElementById("chatWith").innerText = "💬 Chat with " + user;
+document.getElementById("chatBox").innerHTML = "";
+}
+
+function sendMsg(){
+let input = document.getElementById("msgInput");
+let text = input.value;
+
+if(text === "" || currentUser === "") return;
+
+// my message
+let msg = document.createElement("div");
+msg.className = "msg me";
+msg.innerText = text;
+document.getElementById("chatBox").appendChild(msg);
+
+input.value = "";
+
+// fake reply (demo)
+setTimeout(()=>{
+let reply = document.createElement("div");
+reply.className = "msg other";
+reply.innerText = "Reply from " + currentUser;
+document.getElementById("chatBox").appendChild(reply);
+},800);
+
+}
+
+</script>
+
+</body>
+</html>
