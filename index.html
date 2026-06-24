@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetSpeed — Next Gen Internet</title>
+    <style>
+        /* Modern Global Reset */
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #0f172a; /* Dark Background */
+            color: #f8fafc;
+            overflow-x: hidden;
+            padding-top: 80px; 
+        }
+
+        /* Fixed Movable Header */
+        header {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8%;
+            height: 80px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ef4444, #f43f5e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        /* Center Plain Links Menu */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #ef4444;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Customer Login Button */
+        .btn-customer-login {
+            background: linear-gradient(135deg, #ef4444, #991b1b);
+            color: #ffffff;
+            padding: 10px 22px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .btn-customer-login::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border-radius: 50px;
+            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6);
+            animation: pulseGlow 2s infinite;
+            z-index: -1;
+        }
+
+        .btn-customer-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+            background: linear-gradient(135deg, #ff4d4d, #b91c1c);
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 85vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: radial-gradient(circle at top, rgba(239, 68, 68, 0.1) 0%, transparent 60%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 10;
+        }
+
+        .hero-content h1 {
+            font-size: 54px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 40%, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 35px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            color: white;
+            padding: 14px 35px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(239, 68, 68, 0.5);
+        }
+
+        /* Packages Section */
+        .packages {
+            padding: 100px 8% 60px 8%;
+            text-align: center;
+        }
+
+        .packages h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .package-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .package-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            padding: 40px 30px;
+            border-radius: 24px;
+            width: 340px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .package-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(239, 68, 68, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(239, 68, 68, 0.1);
+        }
+
+        .package-card.popular {
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            background: rgba(30, 41, 59, 0.7);
+        }
+
+        .badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ef4444, #991b1b);
+            color: white;
+            padding: 4px 18px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .package-card h3 {
+            font-size: 20px;
+            color: #94a3b8;
+            margin-bottom: 15px;
+        }
+
+        .speed {
+            font-size: 42px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .price {
+            font-size: 18px;
+            color: #ef4444;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .package-card ul {
+            list-style: none;
+            margin-bottom: 35px;
+            text-align: left;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 25px;
+        }
+
+        .package-card ul li {
+            margin-bottom: 12px;
+            color: #94a3b8;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .package-card ul li::before {
+            content: "✓";
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        .btn-buy {
+            display: block;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            padding: 12px;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .package-card:hover .btn-buy {
+            background: #fff;
+            color: #0f172a;
+        }
+
+        .package-card.popular .btn-buy {
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            border: none;
+        }
+        
+        .package-card.popular:hover .btn-buy {
+            background: linear-gradient(135deg, #b91c1c, #ef4444);
+            color: #fff;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose {
+            padding: 100px 8% 60px 8%;
+            text-align: center;
+            background-color: #0b0f19;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .why-choose h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .why-choose .subtitle {
+            color: #94a3b8;
+            font-size: 16px;
+            max-width: 750px;
+            margin: 0 auto 60px auto;
+            line-height: 1.6;
+        }
+
+        .features-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            flex: 1;
+            min-width: 220px;
+            max-width: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .icon-circle {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: #1e293b;
+            border: 3px solid #ef4444; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+            position: relative;
+            box-shadow: 0 0 0 6px rgba(239, 68, 68, 0.2), 
+                        0 0 0 12px rgba(239, 68, 68, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .feature-item:hover .icon-circle {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.3), 
+                        0 0 0 16px rgba(239, 68, 68, 0.15),
+                        0 0 25px rgba(239, 68, 68, 0.4);
+        }
+
+        .inner-icon {
+            font-size: 32px;
+            color: #ffffff;
+        }
+
+        .feature-item h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .feature-item p {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        /* Security & Safety Section */
+        .security-section {
+            padding: 100px 8%;
+            background: linear-gradient(180deg, #0b0f19 0%, #0f172a 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            text-align: center;
+        }
+
+        .security-section h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fff, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .security-section .subtitle {
+            color: #94a3b8;
+            font-size: 16px;
+            max-width: 700px;
+            margin: 0 auto 50px auto;
+            line-height: 1.6;
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .security-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(239, 68, 68, 0.1);
+            border-radius: 20px;
+            padding: 35px 25px;
+            text-align: left;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .security-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: #ef4444;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .security-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(239, 68, 68, 0.3);
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.05);
+        }
+
+        .security-card:hover::before {
+            opacity: 1;
+        }
+
+        .security-icon {
+            font-size: 35px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .security-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .security-card p {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        /* Coverage Area Section */
+        .coverage {
+            padding: 100px 8% 80px 8%;
+            text-align: center;
+        }
+
+        .coverage h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .coverage p {
+            color: #94a3b8;
+            margin-bottom: 35px;
+        }
+
+        .division-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            padding: 10px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
+        }
+
+        .area-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            min-height: 120px;
+        }
+
+        .area-card {
+            background: rgba(30, 41, 59, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 20px;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 500;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            animation: fadeIn 0.4s ease forwards;
+            transition: all 0.3s ease;
+        }
+
+        .area-card:hover {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            transform: translateY(-3px);
+        }
+
+        .area-card::before {
+            content: "📍";
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Contact Section */
+        .contact {
+            background: radial-gradient(circle at bottom, rgba(239, 68, 68, 0.05) 0%, transparent 50%);
+            padding: 80px 8%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .contact h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .contact p {
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .contact strong {
+            color: #ef4444;
+            font-size: 20px;
+        }
+
+        /* Minimal Footer */
+        footer {
+            background: #090d16;
+            color: #64748b;
+            text-align: center;
+            padding: 25px;
+            font-size: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Responsive Layout Updates for Open Text Menu */
+        @media (max-width: 900px) {
+            header {
+                padding: 0 4%;
+            }
+            .nav-menu {
+                gap: 15px;
+            }
+            .nav-menu a {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                height: auto;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+            body {
+                padding-top: 140px; /* Adjusted padding to prevent navbar overlapping content */
+            }
+            .nav-menu {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 12px 20px;
+            }
+            .packages, .why-choose, .security-section, .coverage { 
+                padding: 60px 20px; 
+            }
+            .area-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo { font-size: 22px; }
+            .btn-customer-login { padding: 8px 16px; font-size: 13px; }
+            .area-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation Bar -->
+    <header>
+        <div class="logo">NetSpeed</div>
+        
+        <!-- Open Plain Text Navbar Links (No Icons/Dropdowns/Buttons) -->
+        <nav class="nav-menu">
+            <a href="#home">Home</a>
+            <a href="#packages">Packages</a>
+            <a href="#why-choose">Why Choose Us</a>
+            <a href="#security">Security</a>
+            <a href="#coverage">Coverage</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="header-right">
+            <!-- Customer Login Button -->
+            <a href="customer-login.html" class="btn-customer-login">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                Customer Login
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Next Gen Connectivity For Ultimate Speed</h1>
+            <p>Experience uninterrupted browsing, ultra-low ping gaming, and seamless 4K streaming with NetSpeed.</p>
+            <a href="#packages" class="btn">Explore Packages</a>
+        </div>
+    </section>
+
+    <!-- Packages Section -->
+    <section id="packages" class="packages">
+        <h2>Choose the Best Plan for You</h2>
+        <div class="package-container">
+            
+            <div class="package-card">
+                <div>
+                    <h3>Starter Pack</h3>
+                    <div class="speed">20 Mbps</div>
+                    <p class="price">৳ 500 / Month</p>
+                </div>
+                <div>
+                    <ul>
+                        <li>Smooth Facebook & YouTube streaming</li>
+                        <li>24/7 Dedicated Support</li>
+                        <li>Free Optical Fiber Connection</li>
+                    </ul>
+                    <a href="#contact" class="btn-buy">Get Connected</a>
+                </div>
+            </div>
+
+            <div class="package-card popular">
+                <span class="badge">Most Popular</span>
+                <div>
+                    <h3>Gaming & Pro</h3>
+                    <div class="speed">50 Mbps</div>
+                    <p class="price">৳ 800 / Month</p>
+                </div>
+                <div>
+                    <ul>
+                        <li>Ultra-low ping gaming optimization</li>
+                        <li>Unlimited buffer-less browsing</li>
+                        <li>Priority Customer Support</li>
+                    </ul>
+                    <a href="#contact" class="btn-buy">Get Connected</a>
+                </div>
+            </div>
+
+            <div class="package-card">
+                <div>
+                    <h3>Enterprise Pack</h3>
+                    <div class="speed">100 Mbps</div>
+                    <p class="price">৳ 1,500 / Month</p>
+                </div>
+                <div>
+                    <ul>
+                        <li>Fully dedicated bandwidth allocation</li>
+                        <li>Corporate & multi-device friendly</li>
+                        <li>Free Static Real IP included</li>
+                    </ul>
+                    <a href="#contact" class="btn-buy">Get Connected</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-choose" class="why-choose">
+        <h2>WHY CHOOSE NETSPEED?</h2>
+        <p class="subtitle">Our focus is on quality service within a reasonable price. Our Internet service is blazing fast, affordable, and on a dedicated network.</p>
+        
+        <div class="features-container">
+            <div class="feature-item">
+                <div class="icon-circle">
+                    <div class="inner-icon">🌐</div>
+                </div>
+                <h3>Fiber Optic Connection</h3>
+                <p>We offer you fiber optic internet with super-fast data speed which means faster downloads and less buffering.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="icon-circle">
+                    <div class="inner-icon">⚡</div>
+                </div>
+                <h3>Latest Technology</h3>
+                <p>We use FTTH technology which provides faster speeds than twisted pair conductors, DSL, or coaxial cable.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="icon-circle">
+                    <div class="inner-icon">💪</div>
+                </div>
+                <h3>Dedicated Bandwidth</h3>
+                <p>We provide stable connectivity within a secure network. Our connection is super fast and dedicated.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="icon-circle">
+                    <div class="inner-icon">☎️</div>
+                </div>
+                <h3>24/7 Support</h3>
+                <p>We are always ready to support you with our experienced and dedicated support team.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security & Safety Section -->
+    <section id="security" class="security-section">
+        <h2>Safe & Secure Browsing</h2>
+        <p class="subtitle">আপনার পরিবারের অনলাইন নিরাপত্তা আমাদের সর্বোচ্চ অগ্রাধিকার। নেটস্পিড ইন্টারনেটের সাথে পান সম্পূর্ণ নিরাপদ ও সুরক্ষিত ব্রাউজিংয়ের নিশ্চয়তা।</p>
+        
+        <div class="security-grid">
+            <!-- Security Card 1 -->
+            <div class="security-card">
+                <div class="security-icon">🛡️</div>
+                <h3>DDoS & Malware Protection</h3>
+                <p>আমাদের নেটওয়ার্ক লেভেলে রয়েছে অত্যাধুনিক ফায়ারওয়াল সিকিউরিটি, যা ক্ষতিকারক ম্যালওয়্যার এবং সাইবার আক্রমণ থেকে আপনার ডিভাইসগুলোকে সুরক্ষিত রাখে।</p>
+            </div>
+
+            <!-- Security Card 2 -->
+            <div class="security-card">
+                <div class="security-icon">🌐</div>
+                <h3>Secure Real IP Capability</h3>
+                <p>আমরা প্রদান করি শতভাগ নিরাপদ ও ডেডিকেটেড Static Real IP সুবিধা। কোনো শেয়ার্ড আইপি-র ঝুঁকি ছাড়াই আপনার ফ্রিল্যান্সিং অ্যাকাউন্ট, অনলাইন ব্যাংকিং এবং নিজস্ব সার্ভার রাখুন সম্পূর্ণ হ্যাকিং-মুক্ত ও সুরক্ষিত।</p>
+            </div>
+
+            <!-- Security Card 3 -->
+            <div class="security-card">
+                <div class="security-icon">🔒</div>
+                <h3>Data Privacy Assured</h3>
+                <p>আমরা আপনার ব্রাউজিং ডেটার গোপনীয়তা কঠোরভাবে রক্ষা করি। কোনো থার্ড-পার্টির কাছে ডেটা শেয়ার না করে শতভাগ নিরাপদ ডেটা টানেলিং নিশ্চিত করা হয়।</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coverage Area Section -->
+    <section id="coverage" class="coverage">
+        <h2>Our Coverage Network</h2>
+        <p>Select your division to check out the sub-areas currently covered by our services:</p>
+        
+        <div class="division-tabs">
+            <button class="tab-btn active" onclick="showAreas('dhaka', this)">Dhaka</button>
+            <button class="tab-btn" onclick="showAreas('chittagong', this)">Chittagong</button>
+            <button class="tab-btn" onclick="showAreas('sylhet', this)">Sylhet</button>
+            <button class="tab-btn" onclick="showAreas('rajshahi', this)">Rajshahi</button>
+        </div>
+
+        <div class="area-grid" id="areaGrid"></div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2>Get in Touch Directly</h2>
+        <p>For new internet connections or any customer support queries, feel free to call us:</p>
+        <p><strong>01700-000000</strong></p>
+        <p style="margin-top: 15px; font-size: 14px;">Office: House-12, Road-05, Dhaka, Bangladesh.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 NetSpeed Internet. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JavaScript Data Handler -->
+    <script>
+        const areaData = {
+            dhaka: ['Mirpur', 'Uttara', 'Gulshan', 'Dhanmondi', 'Mohammadpur', 'Badda', 'Khilgaon', 'Old Dhaka'],
+            chittagong: [
+                'GEC More', 'Halishahar', 'Khulshi', 'Agrabad', 'Chawkbazar', 
+                'Nasirabad', 'Patenga', 'Muradpur', 'Bahaddarhat', 'Oxygen', 
+                'CEPZ', 'Sholashahar', 'Lalkhan Bazar', 'Anderkilla', 'AK Khan'
+            ],
+            sylhet: ['Zindabazar', 'Uposhohor', 'Amberkhana', 'Kumargaon', 'Shibgonj', 'Bandar Bazar'],
+            rajshahi: ['Court Station', 'Uposhohor', 'New Market', 'Kadirgonj', 'Shaheb Bazar', 'Motihar']
+        };
+
+        function showAreas(division, buttonElement) {
+            const grid = document.getElementById('areaGrid');
+            grid.innerHTML = ''; 
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            buttonElement.classList.add('active');
+
+            areaData[division].forEach(area => {
+                const card = document.createElement('div');
+                card.className = 'area-card';
+                card.innerText = area;
+                grid.appendChild(card);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const defaultBtn = document.querySelector('.tab-btn');
+            showAreas('dhaka', defaultBtn);
+        });
+    </script>
+</body>
+</html>
