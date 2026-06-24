@@ -21,7 +21,6 @@ body{
     background:linear-gradient(180deg,#03543f,#01261d);
 }
 
-/* BOX */
 .login-box{
     width:360px;
     padding:35px;
@@ -29,12 +28,10 @@ body{
     background:rgba(0,0,0,0.25);
     border:1px solid rgba(255,255,255,0.1);
     backdrop-filter:blur(12px);
-    position:relative;
     text-align:center;
     box-shadow:0 20px 50px rgba(0,0,0,0.4);
 }
 
-/* RED CIRCLE */
 .login-box::before{
     content:"";
     width:85px;
@@ -44,15 +41,10 @@ body{
     position:absolute;
     top:20px;
     right:20px;
-    box-shadow:0 0 25px rgba(255,45,63,0.4);
 }
 
-h2{
-    color:white;
-    margin-bottom:25px;
-}
+h2{color:white;margin-bottom:25px;}
 
-/* INPUT */
 input{
     width:100%;
     padding:12px;
@@ -62,7 +54,6 @@ input{
     background:rgba(255,255,255,0.08);
     color:white;
     outline:none;
-    transition:0.3s;
 }
 
 input:focus{
@@ -70,7 +61,6 @@ input:focus{
     box-shadow:0 0 10px rgba(255,45,63,0.3);
 }
 
-/* BUTTON */
 button{
     width:100%;
     padding:12px;
@@ -81,18 +71,11 @@ button{
     color:white;
     font-weight:bold;
     cursor:pointer;
-    transition:0.3s;
     display:flex;
     justify-content:center;
     align-items:center;
-    gap:8px;
 }
 
-button:hover{
-    transform:scale(1.05);
-}
-
-/* SPINNER */
 .spinner{
     width:16px;
     height:16px;
@@ -103,7 +86,6 @@ button:hover{
 }
 
 @keyframes spin{
-    0%{transform:rotate(0deg);}
     100%{transform:rotate(360deg);}
 }
 
@@ -111,12 +93,12 @@ small{
     display:block;
     margin-top:15px;
     color:#cbd5e1;
-    font-size:12px;
 }
 
 #msg{
     margin-top:10px;
     font-size:13px;
+    color:white;
 }
 </style>
 </head>
@@ -143,6 +125,14 @@ small{
 
 const API_URL = "https://script.google.com/macros/s/AKfycbyZlOQVK2pehzbZB3BRF2Z4tFvrINnCnkCUFARFop2vfWF_C7gUbJuoOfVgFT2nFXDA/exec";
 
+// ===== DEVICE TOKEN CREATE =====
+if (!localStorage.getItem("deviceToken")) {
+    localStorage.setItem(
+        "deviceToken",
+        Date.now() + "-" + Math.random().toString(36).substr(2, 9)
+    );
+}
+
 function login(){
 
     let username = document.getElementById("username").value;
@@ -157,17 +147,18 @@ function login(){
         return;
     }
 
-    // 🔥 LOADING START
+    // LOADING START
     btn.disabled = true;
     btnText.innerHTML = `<span class="spinner"></span> Loading...`;
-    msg.innerText = "Checking login...";
 
     fetch(API_URL,{
         method:"POST",
         body:JSON.stringify({
             action:"login",
             username,
-            password
+            password,
+            deviceToken: localStorage.getItem("deviceToken"),
+            deviceName: navigator.userAgent
         })
     })
     .then(res=>res.json())
@@ -175,7 +166,6 @@ function login(){
 
         if(res.status==="success"){
 
-            // 🔥 AUTH FIX
             localStorage.setItem("auth","true");
             localStorage.setItem("username",res.username);
             localStorage.setItem("role",res.role);
@@ -184,17 +174,20 @@ function login(){
             msg.innerText="Login Success ✔";
 
             setTimeout(()=>{
-
                 if(res.role==="customer"){
                     window.location.href="customer-dashboard.html";
                 }
                 else if(res.role==="chat"){
                     window.location.href="chat.html";
                 }
-
             },1000);
 
-        }else{
+        }
+        else if(res.status==="limit"){
+            msg.style.color="orange";
+            msg.innerText="Device Limit Reached ❌";
+        }
+        else{
             msg.style.color="#ff4d4d";
             msg.innerText=res.message;
         }
@@ -204,14 +197,15 @@ function login(){
         msg.innerText="Server Error!";
     })
     .finally(()=>{
-
-        // 🔥 LOADING STOP
         btn.disabled = false;
         btnText.innerText = "Login";
     });
 
-    }
+}
 
+// ENTER KEY LOGIN
+document.getElementById("username").addEventListener("keydown",e=>{if(e.key==="Enter")login();});
+document.getElementById("password").addEventListener("keydown",e=>{if(e.key==="Enter")login();});
 
 </script>
 
